@@ -1,0 +1,41 @@
+Install Node (Already Done)
+Install NPM (Already Done)
+
+Create server.js with some sample code.
+Setup launch.js for attached debugging and single click server startup.
+
+Lookup a WebSocket package. Chose "WS"
+npm install --save ws
+
+Add some same code to the server.js
+Create index.html with a script tag with some of the sample code a button to fire off that code.
+
+Sample code calls "require" so I need to roll up my dependencies.
+Chose "browserify" to perfrom this task.
+
+Moved JS code out websockets.js
+
+browserify websockets.js > bundle.js
+Failed due to optional dependencies
+npm install --save bufferutil
+npm install --save utf-8-validate
+browserify websockets.js > bundle.js (Again)
+
+bundle.js is now 2MB :o
+
+Pointed index.html to the bundle.js
+
+Need to serve up my HTML from my server to XSS reasons.
+Installing express to allow for more advanced html serving.
+npm install express --save
+npm install express-handlebars --save
+
+Took some setup but got it all working.
+
+Moved my bundle.js into the new 'public' folder and redirected express to look there for files.
+
+Needed the express-ws package
+
+npm i express-ws --save
+
+OMG IT WAS THE BROWSER SIDE!
