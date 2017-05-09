@@ -1,11 +1,11 @@
 var connections = {};
 var connectionIDCounter = 0;
 
-exports.index = function (req, res, next) {
+exports.index = (req, res, next) => {
     res.render('home', {})
 }
 
-exports.broadcast = function (req, res, next) {
+exports.broadcast = (req, res, next) => {
     var message = req.query.message
     console.log(message)
     for (let key of Object.keys(connections)) {
@@ -14,7 +14,7 @@ exports.broadcast = function (req, res, next) {
     res.end("Message Sent: " + message)
 }
 
-exports.message = function (ws, req, next) {
+exports.message = (ws, req, next) => {
     ws.id = connectionIDCounter++;
     connections[ws.id] = ws;
     console.log('WebSocket was opened')

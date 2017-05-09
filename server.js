@@ -6,6 +6,7 @@ var expressWs = require('express-ws')(app)
 
 var index = require('./routes/index')
 var test = require('./routes/test')
+var game = require('./routes/game')
 
 const port = 3000
 
@@ -19,6 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index)
 app.use('/test', test)
+app.use('/game', game)
 
 app.listen(port, (err) => {
   if (err) {

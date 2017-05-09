@@ -1,0 +1,156 @@
+<style>
+
+</style>
+
+<canvas id="gameCanvas">
+</canvas>
+
+<script>
+    class Direction {
+        static add(coor, direction) {
+            if (direction == Direction.UP)
+                coor.y--
+            else if (direction == Direction.DOWN)
+                coor.y++
+            else if (direction == Direction.LEFT)
+                coor.x--
+            else if (direction == Direction.RIGHT)
+                coor.x++
+
+            return coor
+        }
+    }
+    Direction.UP = 0
+    Direction.RIGHT = 1
+    Direction.DOWN = 2
+    Direction.LEFT = 3
+
+</script>
+
+<script>
+        class Player {
+            constructor() {
+                this.body = [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 }]
+                this.direction = Direction.RIGHT
+            }
+            update() {
+                this.move()
+                this.draw()
+            }
+            move() {
+                var head = player.body[player.body.length - 1]
+                var newHead = Object.assign({}, head);
+                newHead = Direction.add(newHead, player.direction)
+                player.body.push(newHead)
+                player.body.shift()
+            }
+            draw() {
+                for (let coor of player.body) {
+                    drawSquare(coor.x, coor.y)
+                }
+            }
+            moveLeft() {
+                if (player.direction != Direction.RIGHT)
+                    player.direction = Direction.LEFT
+            }
+            moveRight() {
+                if (player.direction != Direction.LEFT)
+                    player.direction = Direction.RIGHT
+            }
+            moveUp() {
+                if (player.direction != Direction.DOWN)
+                    player.direction = Direction.UP
+            }
+            moveDown() {
+                if (player.direction != Direction.UP)
+                    player.direction = Direction.DOWN
+            }
+        }
+
+</script>
+
+<script>
+    class Board {
+        constructor() {
+            this.width = 400
+            this.height = 400
+            this.backgroundColor = "white"
+            this.wallColor = "black"
+            canvas.width = this.width
+            canvas.height = this.height
+        }
+
+        update() {
+            this.drawBackground()
+        }
+
+        drawBackground() {
+            context.fillStyle = this.backgroundColor
+            context.fillRect(0, 0, this.width, this.height)
+            context.strokeStyle = this.wallColor
+            context.strokeRect(0, 0, this.width, this.height)
+        }
+    }
+
+</script>
+
+<script>
+    let options = {
+        fps: 5,
+        blocks: {
+            size: 20,
+            color: "black",
+            borderColor: "white"
+        }
+    }
+    let canvas = document.getElementById("gameCanvas")
+    let context = canvas.getContext("2d");
+
+    function drawSquare(x, y) {
+        let size = options.blocks.size
+        var x = x * size, y = y * size
+        context.fillStyle = options.blocks.color
+        context.fillRect(x, y, size, size)
+        context.strokeStyle = options.blocks.borderColor
+        context.strokeRect(x, y, size, size)
+        context.strokeRect(x + 1, y + 1, size - 1, size - 1)
+    }
+
+    document.onkeydown = onKeyDown
+
+    function onKeyDown(e) {
+        player.x = 0
+        player.y = 0
+
+        var keys = {
+            37: player.moveLeft,
+            38: player.moveUp,
+            39: player.moveRight,
+            40: player.moveDown
+        }
+
+        var keyFunc = keys[e.keyCode]
+        if (keyFunc) {
+            keyFunc()
+        }
+    }
+
+    let board = new Board()
+    let player = new Player()
+
+    var lastFrameTimeMs = 0
+    function gameLoop(timeStamp) {
+        if (timeStamp < lastFrameTimeMs + (1000 / options.fps)) {
+            requestAnimationFrame(gameLoop);
+            return
+        }
+
+        board.update()
+        player.update()
+
+        lastFrameTimeMs = timeStamp;
+        requestAnimationFrame(gameLoop);
+    }
+    gameLoop()
+
+</script>
