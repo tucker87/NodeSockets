@@ -1,25 +1,23 @@
-  
-    <input type="button" onclick="openWs()" value="Open 'er up!'" />
-    <input type="button" onclick="sendWsMessage('Test123')" value="Send it!" />
-    <div id="messages">
-
-    </div>
+<input type="button" onclick="openWs()" value="Open 'er up!'" />
+<input type="button" onclick="sendWsMessage('Test123')" value="Send it!" />
+<div id="messages">
+</div>
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-        var ws;
-        function openWs() {
-            ws = new WebSocket('ws://localhost:3000/');
-            ws.onmessage = function (event) {
-                $("#messages").append('<div>' + event.data + '</div>')
-            };
-            ws.onopen = function (event) {
-                ws.send("I'm Open!'");
-            }
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+    var ws;
+    function openWs() {
+        ws = new WebSocket('ws://localhost:3000/test');
+        ws.onmessage = function (event) {
+            $("#messages").append('<div>' + event.data + '</div>')
+        };
+        ws.onopen = function (event) {
+            ws.send("I'm Open!'");
         }
+    }
 
-        function sendWsMessage(msg) {
-            ws.send(msg)
-        }
-    </script>
+    function sendWsMessage(msg) {
+        ws.send(msg)
+    }
+</script>
