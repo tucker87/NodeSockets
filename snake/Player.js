@@ -15,8 +15,8 @@ class Player {
         this.draw()
     }
     move() {
-        var head = this.body[this.body.length - 1]
-        var newHead = Object.assign({}, head);
+        let head = this.body[this.body.length - 1]
+        let newHead = Object.assign({}, head);
         newHead = Direction.add(newHead, this.direction)
         this.body.push(newHead)
         if(this.body.length > this.length)
@@ -28,7 +28,7 @@ class Player {
         }
     }
     turn(newDirection) {
-        if (!Direction.isOpposite(this.direction, newDirection))
+        if (newDirection != undefined && !Direction.isOpposite(this.direction, newDirection))
             this.direction = newDirection
     }
 

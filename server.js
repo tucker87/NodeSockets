@@ -19,7 +19,7 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs')
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/snake/main.js', browserify('./snake/main.js'));
+app.get('/compiled/Main.js', browserify('./snake/Main.js'));
 
 app.use('/', index)
 app.use('/test', test)
