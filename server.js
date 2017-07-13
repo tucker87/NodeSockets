@@ -1,3 +1,4 @@
+var browserify = require('browserify-middleware');
 var path = require('path')
 var express = require('express')
 var exphbs = require('express-handlebars')
@@ -17,6 +18,8 @@ app.engine('.hbs', exphbs({
 }))
 app.set('view engine', '.hbs')
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/snake/main.js', browserify('./snake/main.js'));
 
 app.use('/', index)
 app.use('/test', test)
