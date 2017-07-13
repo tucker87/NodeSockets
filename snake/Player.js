@@ -2,8 +2,12 @@ const Direction = require('./Direction')
 
 class Player {
     constructor(board) {
-        this.body = [{ x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 0 }, { x: 3, y: 0 }]
-        this.direction = Direction.RIGHT()
+        let offset = 5
+        let startingX = this.random(1 + offset, board.width() - offset)
+        let startingY = this.random(1 + offset, board.height() - offset)
+        this.direction = this.random(0, 3)
+        this.length = 4
+        this.body = [{ x: startingX, y: startingY }]        
         this.board = board
     }
     update() {
@@ -15,7 +19,8 @@ class Player {
         var newHead = Object.assign({}, head);
         newHead = Direction.add(newHead, this.direction)
         this.body.push(newHead)
-        this.body.shift()
+        if(this.body.length > this.length)
+            this.body.shift()
     }
     draw() {
         for (let coor of this.body) {
@@ -25,6 +30,10 @@ class Player {
     turn(newDirection) {
         if (!Direction.isOpposite(this.direction, newDirection))
             this.direction = newDirection
+    }
+
+    random(min, max) {
+        return Math.floor(Math.random()*(max-min+1)+min);
     }
 }
 
