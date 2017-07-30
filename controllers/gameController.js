@@ -1,5 +1,6 @@
-var players = [];
-var playerConnectionIDCount = 0;
+let players = [];
+let food = []
+let playerConnectionIDCount = 0;
 
 exports.index = (req, res, next) => {
     res.render('game', {})

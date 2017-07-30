@@ -1,13 +1,13 @@
 const Direction = require('./Direction')
 const Board = require('./Board')
-const Server = require('./Server')
+const Data = require('./Data')
 const options = require('./Options')
 const controls = require('./Controls')
 
 let canvas = document.getElementById("gameCanvas")
 
 let board = new Board(canvas, options)
-let server = new Server()
+let server = new Data()
 
 server.openWs().then(() => {
     board.addFood()

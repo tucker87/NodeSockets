@@ -1,6 +1,6 @@
 const Player = require('./Player')
 
-module.exports = class Server {
+module.exports = class Data {
     openWs() {
         return new Promise((resolve, reject) => {
             this.ws = new WebSocket('ws://localhost:3000/game/')
