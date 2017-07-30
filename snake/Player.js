@@ -2,15 +2,20 @@ const Direction = require('./Direction')
 const Utils = require('./Utils')
 const _ = require('lodash')
 
-class Player {
-    constructor(board) {
-        let startingX = Utils.randomBoardPosition(board)
-        let startingY = Utils.randomBoardPosition(board)
-        this.body = [{ x: startingX, y: startingY }]
+let _board;
 
+class Player {
+    constructor(board, body) {
+        _board = board
+        
+        this.body = body
+            || [{
+                x: Utils.randomBoardPosition(board),
+                y: Utils.randomBoardPosition(board)
+            }]
+        
         this.direction = Utils.random(0, 3)
         this.length = 4
-        this.board = board
     }
     update() {
         this.move()
@@ -26,27 +31,27 @@ class Player {
     }
     updateCollision() {
         let head = this.getHead()
-        for (let food of this.board.food) {
+        for (let food of _board.food) {
             if (head.x == food.x && head.y == food.y) 
                 this.eat(food)
         }
         
         if (_.some(this.body.slice(0, this.body.length -1), head))
-            this.board.killPlayer(this)
+            _board.killPlayer(this)
         
-        for (let otherPlayer of this.board.players.slice(1)) {
+        for (let otherPlayer of _board.players.slice(1)) {
             for(let coor of this.body)
                 if (_.some(otherPlayer.body, coor))
-                    this.board.killPlayer(this)
+                    _board.killPlayer(this)
         }
     }
     eat(food) {
         this.length++
-        this.board.eatFood(food)
+        _board.eatFood(food)
     }
     draw() {
         for (let coor of this.body) {
-            this.board.drawSquare(coor.x, coor.y, this.board.options.player)
+            _board.drawSquare(coor.x, coor.y, _board.options.player)
         }
     }
     turn(newDirection) {

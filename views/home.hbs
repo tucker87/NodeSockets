@@ -13,6 +13,7 @@
         ws.onopen = function (event) {
             ws.send("I'm Open!'");
         }
+        console.log(ws.CONNECTING)
     }
 
     function sendWsMessage(msg) {

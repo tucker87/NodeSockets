@@ -2,10 +2,16 @@ const Direction = require('./Direction')
 const Board = require('./Board')
 const Controls = require('./Controls')
 const Options = require('./Options')
+const Server = require('./Server')   
 
 let canvas = document.getElementById("gameCanvas")
 
 let board = new Board(canvas, Options)
+let server = new Server(board)
+
+server.openWs()
+console.log(server.ws)
+
 board.addFood()
 board.addPlayer()
 
@@ -19,9 +25,9 @@ function gameLoop(timeStamp) {
         requestAnimationFrame(gameLoop)
         return
     }
-
+    
     board.update()
-
+    server.sendMessage(board.players[0])
     lastFrameTimeMs = timeStamp
     requestAnimationFrame(gameLoop)
 }

@@ -13,6 +13,7 @@ class Board {
         canvas.height = options.canvas.height
         this.food = []
         this.players = []
+        this.otherPlayers = []
     }
 
     update() {
@@ -23,6 +24,10 @@ class Board {
         }
         for (let player of this.players) {
             player.update();
+            player.draw();
+        }
+
+        for (let player of this.otherPlayers) {
             player.draw();
         }
     }
