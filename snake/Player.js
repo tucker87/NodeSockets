@@ -39,7 +39,7 @@ class Player {
         if (_.some(this.body.slice(0, this.body.length -1), head))
             _board.killPlayer(this)
         
-        for (let otherPlayer of _board.players.slice(1)) {
+        for (let otherPlayer of _board.otherPlayers) {
             for(let coor of this.body)
                 if (_.some(otherPlayer.body, coor))
                     _board.killPlayer(this)

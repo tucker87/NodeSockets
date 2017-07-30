@@ -1,24 +1,22 @@
- const Player = require('./Player')
+const Player = require('./Player')
 
 module.exports = class Server {
-    constructor(board) {
-        this.board = board
-    }
     openWs() {
-        this.ws = new WebSocket('ws://localhost:3000/game/')
-        this.ws.onmessage = function (board, event) {
-            board.otherPlayers = JSON.parse(event.data).otherPlayers.map(op => {
-                let player = new Player(board, op.body)
-                player.body = op.body
-                return player
-            })
-            console.log(board.otherPlayers)
-        }.bind(null, this.board)
+        return new Promise((resolve, reject) => {
+            this.ws = new WebSocket('ws://localhost:3000/game/')
+            this.ws.onopen = () => resolve()
+            this.ws.onerror = error => reject(error)
+            this.ws.onclose = (event) => console.log("Websocket socket closed: " + JSON.stringify(event))
+        })
     }
 
     sendMessage(msg) {
-        if (this.ws.readyState === 1) {
+        return new Promise((resolve, reject) => {
+            this.ws.onmessage = (msg) =>
+                resolve(JSON.parse(msg.data))
+            
             this.ws.send(JSON.stringify(msg))
-        }
+        })
+        
     }
 }

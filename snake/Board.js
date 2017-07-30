@@ -11,9 +11,13 @@ class Board {
         this.options = options
         canvas.width = options.canvas.width
         canvas.height = options.canvas.height
+        this.respawnPlayer()
         this.food = []
-        this.players = []
         this.otherPlayers = []
+    }
+
+    setOtherPlayers(data) {
+        this.otherPlayers = data.map(op => new Player(this, op.body))
     }
 
     update() {
@@ -22,13 +26,12 @@ class Board {
             food.update();
             food.draw();
         }
-        for (let player of this.players) {
-            player.update();
-            player.draw();
-        }
 
-        for (let player of this.otherPlayers) {
-            player.draw();
+        this.player.update();
+        this.player.draw();
+
+        for (let otherPlayer of this.otherPlayers) {
+            otherPlayer.draw();
         }
     }
 
@@ -59,12 +62,11 @@ class Board {
     addFood() {
         this.food.push(new Food(this))
     }
-    addPlayer() {
-        this.players.push(new Player(this))
+    respawnPlayer() {
+        this.player = new Player(this)
     }
     killPlayer(player) {
-        _.remove(this.players, player)
-        this.addPlayer()
+        this.player = new Player(this)
     }
     eatFood(food) {
         _.remove(this.food, food)

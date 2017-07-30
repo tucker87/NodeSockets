@@ -1,34 +1,38 @@
 const Direction = require('./Direction')
 const Board = require('./Board')
-const Controls = require('./Controls')
-const Options = require('./Options')
-const Server = require('./Server')   
+const Server = require('./Server')
+const options = require('./Options')
+const controls = require('./Controls')
 
 let canvas = document.getElementById("gameCanvas")
 
-let board = new Board(canvas, Options)
-let server = new Server(board)
+let board = new Board(canvas, options)
+let server = new Server()
 
-server.openWs()
-console.log(server.ws)
+server.openWs().then(() => {
+    board.addFood()
+    board.respawnPlayer()
 
-board.addFood()
-board.addPlayer()
+    document.onkeydown = function (e) {
+        board.player.turn(controls.Keys[e.keyCode])
+    }
+    gameLoop()
+})
 
-document.onkeydown = function (e) {
-    board.players[0].turn(Controls.Keys[e.keyCode])
-}
 
 let lastFrameTimeMs = 0
 function gameLoop(timeStamp) {
-    if (timeStamp < lastFrameTimeMs + (1000 / Options.fps)) {
+    if (timeStamp < lastFrameTimeMs + (1000 / options.fps)) {
         requestAnimationFrame(gameLoop)
         return
     }
-    
-    board.update()
-    server.sendMessage(board.players[0])
+
+    server.sendMessage(board.player).then((data) => {
+        board.setOtherPlayers(data.otherPlayers)
+        board.update()
+    })
+
+
     lastFrameTimeMs = timeStamp
     requestAnimationFrame(gameLoop)
 }
-gameLoop()
