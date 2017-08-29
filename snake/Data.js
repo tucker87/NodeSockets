@@ -16,7 +16,14 @@ module.exports = class Data {
                 resolve(JSON.parse(msg.data))
             
             this.ws.send(JSON.stringify(msg))
-        })
-        
+        })   
+    }
+
+    eat(id) {
+        return this.sendMessage({type: 'eat', payLoad: id})
+    }
+
+    playerMove(player) {
+        return this.sendMessage({type: 'move', payLoad: player})
     }
 }

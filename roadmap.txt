@@ -1,3 +1,5 @@
+0.1 Let's go
+
 Install Node (Already Done)
 Install NPM (Already Done)
 
@@ -25,8 +27,21 @@ npm i express-ws --save
 
 Setup routers and controllers for code seperation.
 
-0.2 Done
+0.2 : Implement Snake in browser
 
-0.3 : Implement Snake in browser
+I did this, but I didn't take notes. :(
 
-0.4 : Make it multiplayer
+0.3 : Make it multiplayer
+
+Done!
+
+0.4 Move food spawning to server
+
+Food is now 
+    1 per person,
+    on the server
+
+but the player isn't growing and food position isn't random.
+
+
+0.5 ?

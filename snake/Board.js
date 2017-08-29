@@ -12,7 +12,7 @@ class Board {
         canvas.width = options.canvas.width
         canvas.height = options.canvas.height
         this.respawnPlayer()
-        this.food = []
+        this.foods = []
         this.otherPlayers = []
     }
 
@@ -22,8 +22,7 @@ class Board {
 
     update() {
         this.drawBackground()
-        for (let food of this.food) {
-            food.update();
+        for (let food of this.foods) {
             food.draw();
         }
 
@@ -60,7 +59,10 @@ class Board {
         return this.canvas.height / this.options.blocks.size
     }
     addFood() {
-        this.food.push(new Food(this))
+        this.foods.push(new Food(this))
+    }
+    setFoods(foods) {
+        this.foods = foods.map((food) => new Food(this, food))
     }
     respawnPlayer() {
         this.player = new Player(this)

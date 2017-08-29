@@ -31,10 +31,6 @@ class Player {
     }
     updateCollision() {
         let head = this.getHead()
-        for (let food of _board.food) {
-            if (head.x == food.x && head.y == food.y) 
-                this.eat(food)
-        }
         
         if (_.some(this.body.slice(0, this.body.length -1), head))
             _board.killPlayer(this)
@@ -44,10 +40,6 @@ class Player {
                 if (_.some(otherPlayer.body, coor))
                     _board.killPlayer(this)
         }
-    }
-    eat(food) {
-        this.length++
-        _board.eatFood(food)
     }
     draw() {
         for (let coor of this.body) {

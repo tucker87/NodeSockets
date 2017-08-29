@@ -1,14 +1,13 @@
 const Utils = require('./Utils')
 
 class Food {
-    constructor(board) {
-        this.x = Utils.randomBoardPosition(board)
-        this.y = Utils.randomBoardPosition(board)
+    constructor(board, food) {
+        this.id = food.id
+        this.x = food.x !== null ? food.x : Utils.randomBoardPosition(board)
+        this.y = food.y !== null ? food.y : Utils.randomBoardPosition(board)
         this.board = board
     }
-    update() {
-        
-    }
+    
     draw() {
         this.board.drawSquare(this.x, this.y, this.board.options.food)
     }

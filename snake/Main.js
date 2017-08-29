@@ -10,7 +10,7 @@ let board = new Board(canvas, options)
 let server = new Data()
 
 server.openWs().then(() => {
-    board.addFood()
+    // board.addFood()
     board.respawnPlayer()
 
     document.onkeydown = function (e) {
@@ -26,11 +26,19 @@ function gameLoop(timeStamp) {
         requestAnimationFrame(gameLoop)
         return
     }
+    //Eat?
+    let head = board.player.getHead()
+    for (let food of board.foods)
+        if (head.x == food.x && head.y == food.y)
+            server.eat(food.id)
 
-    server.sendMessage(board.player).then((data) => {
-        board.setOtherPlayers(data.otherPlayers)
-        board.update()
-    })
+    //Update Positions
+    server.playerMove(board.player)
+        .then((data) => {
+            board.setOtherPlayers(data.otherPlayers)
+            board.setFoods(data.foods)
+            board.update()
+        })
 
 
     lastFrameTimeMs = timeStamp
