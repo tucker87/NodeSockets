@@ -9,9 +9,9 @@ exports.index = (req, res, next) => {
 }
 
 exports.join = (ws, req, next) => {
-    ws.id = playerConnectionIDCount++
     console.log('WebSocket was opened')
-    console.log(Object.keys(players))
+
+    ws.id = playerConnectionIDCount++    
     players[ws.id] = ws
     foods[ws.id] = { id: ws.id, x: 0, y: 0 }
     let gameEvents = gameEvents({ ws, players, foods })
@@ -22,8 +22,8 @@ exports.join = (ws, req, next) => {
     })
 
     ws.on('close', () => {
-        delete players[ws.id]
-        delete foods[ws.id]
         console.log('WebSocket was closed')
+        delete players[ws.id]
+        delete foods[ws.id]        
     })
 }
