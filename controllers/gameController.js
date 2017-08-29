@@ -22,7 +22,8 @@ exports.join = (ws, req, next) => {
     })
 
     ws.on('close', () => {
-        delete players[ws.id];
+        delete players[ws.id]
+        delete foods[ws.id]
         console.log('WebSocket was closed')
     })
 }
