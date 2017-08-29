@@ -13,11 +13,12 @@ exports.join = (ws, req, next) => {
     console.log('WebSocket was opened')
     console.log(Object.keys(players))
     players[ws.id] = ws
-    foods[ws.id] = {id: ws.id, x: 0, y: 0}
+    foods[ws.id] = { id: ws.id, x: 0, y: 0 }
+    let gameEvents = gameEvents({ ws, players, foods })
 
     ws.on('message', msg => {
         var message = JSON.parse(msg)
-        gameEvents({ ws, players, foods })[message.type](message.payLoad)
+        gameEvents[message.type](message.payLoad)
     })
 
     ws.on('close', () => {
